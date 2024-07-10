@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circulo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+        .circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #add8e6;
+            cursor: pointer;
+        }
+        @keyframes vibrate {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(2px, 2px); }
+            50% { transform: translate(0, 2px); }
+            75% { transform: translate(2px, 0); }
+            100% { transform: translate(0, 0); }
+        }
+        .reset-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: gray;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle"></div>
+    <button class="reset-button">Reiniciar</button>
+    <script>
+        const circle = document.querySelector('.circle');
+        const resetButton = document.querySelector('.reset-button');
+        let colorIndex = 0;
+        let vibrationSpeed = 0;
+        const colors = [
+            '#add8e6', '#66d9ef', '#33b5e5', '#0099cc', '#0066cc', '#004c99', '#003366', '#002966', '#001a4d', '#000080',
+            '#ffab74', '#ff8b55', '#ff6737', '#ff3816', '#f80000', '#ea0000', '#dd0000', '#cf0000', '#c20000','#3c0000',  
+        ];
+        const redColorsStartIndex = 10;
+
+        circle.addEventListener('click', () => {
+            if (colorIndex < colors.length - 1) {
+                colorIndex = (colorIndex + 1) % colors.length;
+                circle.style.backgroundColor = colors[colorIndex];
+
+                if (colorIndex >= redColorsStartIndex) {
+                    vibrationSpeed += 2;  // Incremento de velocidad mucho más grande
+                    let animationDuration = Math.max(0.05, 0.5 / vibrationSpeed); // Ajuste de la duración mínima de la animación
+                    circle.style.animation = `vibrate ${animationDuration}s infinite`;
+                } else {
+                    circle.style.animation = '';
+                    vibrationSpeed = 0;
+                }
+            }
+        });
+
+        resetButton.addEventListener('click', () => {
+            colorIndex = 0;
+            vibrationSpeed = 0;
+            circle.style.backgroundColor = colors[colorIndex];
+            circle.style.animation = '';
+        });
+    </script>
+</body>
+</html>
